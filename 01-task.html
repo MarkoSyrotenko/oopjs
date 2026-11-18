@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>first</title>
+</head>
+
+<body>
+    <script>
+        function Product(name, price, quantity, category, discount = 0){
+            this.name = name;
+            this.price = price;
+            this.quantity = quantity;
+            this.category = category;
+            this.discount = discount;
+        }
+
+        Product.prototype.showInfo = function (element) {
+            console.log("Name: " + this.name + "\n");
+            console.log("Price: " + this.price + "\n");
+            console.log("Quantity: " + this.quantity + "\n");
+            console.log("Category: " + this.category + "\n");
+            console.log("Discount: " + this.discount + "%\n");
+        };
+        Product.prototype.setDiscount = function (discount) {
+            this.discount=discount;
+            if (discount<0) this.discount=0;
+            if (discount>100) this.discount=100;
+            console.log("set discount to " + this.discount + "%\n");
+        };
+        Product.prototype.getPriceWithDiscount = function (element) {
+            return this.price*(1-this.discount/100);
+        };
+        Product.prototype.buy = function (count) {
+            if (count < 0) return;
+            if (this.quantity<count)
+            {
+                console.log("not enough in stock");
+                return;
+            }
+            this.quantity-=count;
+            console.log("bought "+count+" of "+this.name+" for "+this.getPriceWithDiscount()*count+"\n");
+        };
+        Product.prototype.addToStock = function (count) {
+            if (count < 0) return;
+            this.quantity+=count;
+            console.log("added "+count+" to the "+this.name+" stock\n");
+        };
+        Product.prototype.changePrice = function (newPrice) {
+            this.price=newPrice;
+            if (newPrice<0) this.price=0;
+            console.log("set price to " + this.price + "%\n");
+        };
+        Product.prototype.isAvailable = function (element) {
+            return (this.quantity>0);
+        };
+        
+        let prod1 = new Product("product1", 12, 25, "category");
+        let prod2 = new Product("product2", 1000, 0, "category", 50);
+        let prod3 = new Product("product3", 4136121025, 1111, "another category", 100);
+
+        prod1.showInfo();
+        prod1.setDiscount(25);  
+        console.log("price with discount: " + prod1.getPriceWithDiscount() + "\n");
+        prod1.buy(25);
+        prod1.buy(1);
+        prod1.addToStock(4);
+        prod1.changePrice(4);
+        if (prod1.isAvailable()) console.log("available\n");
+        else console.log("unavailable\n");
+
+        prod2.showInfo();
+        console.log("price with discount: " + prod2.getPriceWithDiscount() + "\n");
+        if (prod1.isAvailable()) console.log("available\n");
+        else console.log("unavailable\n");
+
+        prod3.showInfo();
+        console.log("price with discount: " + prod3.getPriceWithDiscount() + "\n");
+        
+    </script>
+</body>
+
+</html>
