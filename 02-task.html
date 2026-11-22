@@ -1,1 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>first</title>
+</head>
+
+<body>
+    <script>
+        function BankAccount(owner, balance, currency, accountNumber){
+            this.owner = owner;
+            this.balance = balance;
+            this.currency = currency;
+            this.accountNumber = accountNumber;
+        }
+
+        BankAccount.prototype.getAccountInfo = function (element) {
+            console.log("Owner: " + this.owner + "\n");
+            console.log("Balance: " + this.balance + "\n");
+            console.log("Currency: " + this.currency + "\n");
+            console.log("Account number: " + this.accountNumber + "\n");
+        };
+        BankAccount.prototype.deposit = function (amount) {
+            if (amount < 0) return;
+            this.balance+=amount;
+            console.log("deposited "+amount+" to "+this.owner+"'s account\n");
+        };
+        BankAccount.prototype.withdraw = function (amount) {
+            if (amount < 0) return;
+            this.balance-=amount;
+            console.log("withdrew "+amount+" from "+this.owner+"'s account\n");
+        };
+        BankAccount.prototype.transfer = function (receiver, amount) {
+            if (amount < 0) return;
+            this.balance-=amount;
+            receiver.balance+=amount;
+            console.log("transferred "+amount+" from "+this.owner+" to"+receiver.owner+"\n");
+        };
+        BankAccount.prototype.showBalance = function () {
+            console.log(this.owner+"'s balance: "+this.balance+" "+this.currency+"\n");
+        };
+        BankAccount.prototype.changeCurrency = function (currency) {
+            this.currency=currency;
+            console.log("changed "+this.owner+"'s' currency to "+currency+"\n");
+        };
+        BankAccount.prototype.isRich = function (element) {
+            return (this.balance>=100000);
+        };
+        
+        let acc1 = new BankAccount("john", 254694, "dollars", 12345);
+        let acc2 = new BankAccount("jane", 34563, "hryvnias", 67890);
+
+        acc1.getAccountInfo();
+        acc2.getAccountInfo();
+        acc2.changeCurrency("dollars");
+        acc1.deposit(500);
+        acc1.withdraw(500);
+        acc1.withdraw(500);
+        acc1.transfer(acc2, 20000);
+        acc1.showBalance();
+        acc2.showBalance();
+
+        
+    </script>
+</body>
+
+</html>
